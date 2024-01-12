@@ -10,7 +10,10 @@ const TEST_ADDR =
 test('net', async (t) => {
   await t.test('connect() rejects given unreachable address', async () => {
     const peer = createPeer({ name: 'alice' })
-    await assert.rejects(p(peer.net.connect)(TEST_ADDR), /ECONNREFUSED/)
+    await assert.rejects(p(peer.net.connect)(TEST_ADDR), (err) => {
+      assert.equal(err.code, 'ECONNREFUSED', 'err.code is ECONNREFUSED')
+      return true
+    })
     await p(peer.close)(true)
   })
 
