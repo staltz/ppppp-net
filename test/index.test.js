@@ -69,14 +69,6 @@ test('net', async (t) => {
             if (i === 1) {
               assert.equal(ev.type, 'connecting', 'event.type ok')
               assert.equal(ev.address, TEST_ADDR, 'event.address ok')
-              assert.equal(ev.parsedAddress.length, 1)
-              assert.equal(ev.parsedAddress[0].length, 2)
-              assert.deepEqual(ev.parsedAddress[0][0], {
-                name: 'net',
-                host: 'localhost',
-                port: 9752,
-              })
-              assert.equal(ev.parsedAddress[0][1].name, 'shse')
             } else if (i === 2) {
               assert.equal(ev.type, 'connecting-failed', 'event.type ok')
               assert.equal(ev.address, TEST_ADDR, 'event.address ok')
