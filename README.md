@@ -13,6 +13,7 @@ We're not on npm yet. In your package.json, include this as
 - [x] connect
 - [x] stage
 - [x] stats.json
-- [ ] interpool glue
+- [x] interpool glue
+- [ ] writing hubs to stats.json
 - [ ] firewall
 - [ ] scheduler

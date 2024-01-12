@@ -60,15 +60,30 @@ function createPeerMock() {
       setTimeout(() => {
         cb(null, {
           once: () => {},
+          net: {
+            ping() {
+              return {
+                source: () => {},
+                sink: () => {},
+              }
+            },
+          },
         })
       }, 200)
     },
     once: () => {},
+    multiserver: {
+      parse: () => [[{ name: 'net', host: 'localhost', port: 9752 }]],
+    },
+    mockDir: testPath,
   }
   const mockConfig = {
     global: {
       path: testPath,
     },
+    net: {
+      persistTimeout: 0,
+    }
     // shse: { caps }
   }
 

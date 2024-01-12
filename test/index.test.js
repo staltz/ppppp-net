@@ -64,18 +64,30 @@ test('net', async (t) => {
       pull(
         peer.net.listen(),
         pull.drain((ev) => {
-          ++i
-          if (i === 1) {
-            assert.equal(ev.type, 'connecting', 'event.type ok')
-            assert.equal(ev.address, TEST_ADDR, 'event.address ok')
-          } else if (i === 2) {
-            assert.equal(ev.type, 'connecting-failed', 'event.type ok')
-            assert.equal(ev.address, TEST_ADDR, 'event.address ok')
-            assert.ok(ev.details, 'event.details ok')
-            assert.equal(ev.details.code, 'ECONNREFUSED', 'event.details err')
-            resolve()
-          } else {
-            reject(new Error('too many emissions'))
+          try {
+            ++i
+            if (i === 1) {
+              assert.equal(ev.type, 'connecting', 'event.type ok')
+              assert.equal(ev.address, TEST_ADDR, 'event.address ok')
+              assert.equal(ev.parsedAddress.length, 1)
+              assert.equal(ev.parsedAddress[0].length, 2)
+              assert.deepEqual(ev.parsedAddress[0][0], {
+                name: 'net',
+                host: 'localhost',
+                port: 9752,
+              })
+              assert.equal(ev.parsedAddress[0][1].name, 'shse')
+            } else if (i === 2) {
+              assert.equal(ev.type, 'connecting-failed', 'event.type ok')
+              assert.equal(ev.address, TEST_ADDR, 'event.address ok')
+              assert.ok(ev.details, 'event.details ok')
+              assert.equal(ev.details.code, 'ECONNREFUSED', 'event.details err')
+              queueMicrotask(resolve)
+            } else {
+              queueMicrotask(() => reject(new Error('too many emissions')))
+            }
+          } catch (err) {
+            reject(err)
           }
         })
       )

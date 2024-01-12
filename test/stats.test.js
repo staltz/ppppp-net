@@ -9,6 +9,10 @@ const Infos = require('../lib/infos')
 test('Stats', async (t) => {
   await t.test('Recovers from corrupted JSON file', async () => {
     const dirPath = Path.join(__dirname, './fixtures/corrupted')
+    const statsJSONPath = Path.join(dirPath, './stats.json')
+    const fileContents = FS.readFileSync(statsJSONPath, 'utf8')
+    console.log(fileContents);
+
     const infos = new Infos()
     const stats = new Stats(dirPath, infos)
     assert.ok(stats, 'Stats instance was created')
@@ -22,6 +26,10 @@ test('Stats', async (t) => {
     const [address, info] = entriesAfter[0]
     assert.equal(address, 'net:staltz.com:8008~noauth', 'the address looks ok')
     assert.equal(info.stats.source, 'stored', 'the info looks ok')
+
+    stats.close()
+    await p(setTimeout)(50)
+    FS.writeFileSync(statsJSONPath, fileContents)
   })
 
   await t.test('Creates JSON file when it is absent', async () => {
