@@ -4,8 +4,8 @@ const p = require('node:util').promisify
 const pull = require('pull-stream')
 const { createPeer } = require('./util')
 
-const TEST_ADDR =
-  'net:localhost:9752~shse:EqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs24RRUC'
+const PUBKEY = 'EqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs24RRUC'
+const TEST_ADDR = `net:localhost:9752~shse:${PUBKEY}`
 
 test('net', async (t) => {
   await t.test('connect() rejects given unreachable address', async () => {
@@ -69,6 +69,7 @@ test('net', async (t) => {
             if (i === 1) {
               assert.equal(ev.type, 'connecting', 'event.type ok')
               assert.equal(ev.address, TEST_ADDR, 'event.address ok')
+              assert.equal(ev.pubkey, PUBKEY, 'event.pubkey ok')
             } else if (i === 2) {
               assert.equal(ev.type, 'connecting-failed', 'event.type ok')
               assert.equal(ev.address, TEST_ADDR, 'event.address ok')
