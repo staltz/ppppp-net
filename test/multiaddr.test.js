@@ -6,59 +6,59 @@ const PUBKEY = 'EqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs24RRUC'
 const PUBKEY2 = 'EqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs35RRUC'
 
 test('Multiaddr', async (t) => {
-  await t.test('toMs ip4+tcp', async () => {
-    assert.equal(
-      Multiaddr.toMs('/ip4/127.0.0.1/tcp/8008'),
-      'net:127.0.0.1:8008'
-    )
+  await t.test('ip4+tcp', async () => {
+    const multiaddr = '/ip4/127.0.0.1/tcp/8008'
+    const ms = 'net:127.0.0.1:8008'
+    assert.equal(Multiaddr.toMs(multiaddr), ms)
+    assert.equal(Multiaddr.fromMs(ms), multiaddr)
   })
 
-  await t.test('toMs ip4+tcp+shse', async () => {
-    assert.equal(
-      Multiaddr.toMs(`/ip4/127.0.0.1/tcp/8008/shse/${PUBKEY}`),
-      `net:127.0.0.1:8008~shse:${PUBKEY}`
-    )
+  await t.test('ip4+tcp+shse', async () => {
+    const multiaddr = `/ip4/127.0.0.1/tcp/8008/shse/${PUBKEY}`
+    const ms = `net:127.0.0.1:8008~shse:${PUBKEY}`
+    assert.equal(Multiaddr.toMs(multiaddr), ms)
+    assert.equal(Multiaddr.fromMs(ms), multiaddr)
   })
 
-  await t.test('toMs ip4+tcp+shse+token', async () => {
-    assert.equal(
-      Multiaddr.toMs(`/ip4/127.0.0.1/tcp/8008/shse/${PUBKEY}.TOKEN`),
-      `net:127.0.0.1:8008~shse:${PUBKEY}:TOKEN`
-    )
+  await t.test('ip4+tcp+shse+token', async () => {
+    const multiaddr = `/ip4/127.0.0.1/tcp/8008/shse/${PUBKEY}.TOKEN`
+    const ms = `net:127.0.0.1:8008~shse:${PUBKEY}:TOKEN`
+    assert.equal(Multiaddr.toMs(multiaddr), ms)
+    assert.equal(Multiaddr.fromMs(ms), multiaddr)
   })
 
-  await t.test('toMs dns+tcp+shse', async () => {
-    assert.equal(
-      Multiaddr.toMs(`/dns/staltz.com/tcp/8008/shse/${PUBKEY}`),
-      `net:staltz.com:8008~shse:${PUBKEY}`
-    )
+  await t.test('dns+tcp+shse', async () => {
+    const multiaddr = `/dns/staltz.com/tcp/8008/shse/${PUBKEY}`
+    const ms = `net:staltz.com:8008~shse:${PUBKEY}`
+    assert.equal(Multiaddr.toMs(multiaddr), ms)
+    assert.equal(Multiaddr.fromMs(ms), multiaddr)
   })
 
-  await t.test('toMs dns+tcp+shse+token', async () => {
-    assert.equal(
-      Multiaddr.toMs(`/dns/staltz.com/tcp/8008/shse/${PUBKEY}.TOKEN`),
-      `net:staltz.com:8008~shse:${PUBKEY}:TOKEN`
-    )
+  await t.test('dns+tcp+shse+token', async () => {
+    const multiaddr = `/dns/staltz.com/tcp/8008/shse/${PUBKEY}.TOKEN`
+    const ms = `net:staltz.com:8008~shse:${PUBKEY}:TOKEN`
+    assert.equal(Multiaddr.toMs(multiaddr), ms)
+    assert.equal(Multiaddr.fromMs(ms), multiaddr)
   })
 
-  await t.test('toMs tunnel', async () => {
-    assert.equal(
-      Multiaddr.toMs(`/tunnel/${PUBKEY}.${PUBKEY2}`),
-      `tunnel:${PUBKEY}:${PUBKEY2}`
-    )
+  await t.test('tunnel', async () => {
+    const multiaddr = `/tunnel/${PUBKEY}.${PUBKEY2}`
+    const ms = `tunnel:${PUBKEY}:${PUBKEY2}`
+    assert.equal(Multiaddr.toMs(multiaddr), ms)
+    assert.equal(Multiaddr.fromMs(ms), multiaddr)
   })
 
-  await t.test('toMs tunnel+shse', async () => {
-    assert.equal(
-      Multiaddr.toMs(`/tunnel/${PUBKEY}.${PUBKEY2}/shse/${PUBKEY2}`),
-      `tunnel:${PUBKEY}:${PUBKEY2}~shse:${PUBKEY2}`
-    )
+  await t.test('tunnel+shse', async () => {
+    const multiaddr = `/tunnel/${PUBKEY}.${PUBKEY2}/shse/${PUBKEY2}`
+    const ms = `tunnel:${PUBKEY}:${PUBKEY2}~shse:${PUBKEY2}`
+    assert.equal(Multiaddr.toMs(multiaddr), ms)
+    assert.equal(Multiaddr.fromMs(ms), multiaddr)
   })
 
-  await t.test('toMs tunnel+shse+token', async () => {
-    assert.equal(
-      Multiaddr.toMs(`/tunnel/${PUBKEY}.${PUBKEY2}/shse/${PUBKEY2}.TOKEN`),
-      `tunnel:${PUBKEY}:${PUBKEY2}~shse:${PUBKEY2}:TOKEN`
-    )
+  await t.test('tunnel+shse+token', async () => {
+    const multiaddr = `/tunnel/${PUBKEY}.${PUBKEY2}/shse/${PUBKEY2}.TOKEN`
+    const ms = `tunnel:${PUBKEY}:${PUBKEY2}~shse:${PUBKEY2}:TOKEN`
+    assert.equal(Multiaddr.toMs(multiaddr), ms)
+    assert.equal(Multiaddr.fromMs(ms), multiaddr)
   })
 })
