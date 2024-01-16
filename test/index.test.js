@@ -5,7 +5,7 @@ const pull = require('pull-stream')
 const { createPeer } = require('./util')
 
 const PUBKEY = 'EqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs24RRUC'
-const TEST_ADDR = `net:localhost:9752~shse:${PUBKEY}`
+const TEST_ADDR = `/ip4/127.0.0.1/tcp/9752/shse/${PUBKEY}`
 
 test('net', async (t) => {
   await t.test('connect() rejects given unreachable address', async () => {
@@ -68,11 +68,11 @@ test('net', async (t) => {
             ++i
             if (i === 1) {
               assert.equal(ev.type, 'connecting', 'event.type ok')
-              assert.equal(ev.address, TEST_ADDR, 'event.address ok')
+              assert.equal(ev.multiaddr, TEST_ADDR, 'event.address ok')
               assert.equal(ev.pubkey, PUBKEY, 'event.pubkey ok')
             } else if (i === 2) {
               assert.equal(ev.type, 'connecting-failed', 'event.type ok')
-              assert.equal(ev.address, TEST_ADDR, 'event.address ok')
+              assert.equal(ev.multiaddr, TEST_ADDR, 'event.address ok')
               assert.ok(ev.details, 'event.details ok')
               assert.equal(ev.details.code, 'ECONNREFUSED', 'event.details err')
               queueMicrotask(resolve)

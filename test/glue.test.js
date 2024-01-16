@@ -5,8 +5,8 @@ const Path = require('node:path')
 const p = require('node:util').promisify
 const { createPeerMock } = require('./util')
 
-const TEST_ADDR =
-  'net:localhost:9752~shse:EqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs24RRUC'
+const PUBKEY = 'EqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs24RRUC'
+const TEST_ADDR = `/ip4/127.0.0.1/tcp/9752/shse/${PUBKEY}`
 
 test('Glueing together stats with connections', async (t) => {
   await t.test('stage() is ignored when peer already connected', async () => {

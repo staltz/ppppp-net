@@ -1,5 +1,5 @@
 {
-  "net:staltz.com:8008~noauth": {
+  "/dns/staltz.com/tcp/8008": {
     "duration": {
       "mean": 0,
       "stdev": 0,

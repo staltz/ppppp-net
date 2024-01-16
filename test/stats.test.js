@@ -24,7 +24,7 @@ test('Stats', async (t) => {
     const entriesAfter = Array.from(infos.entries())
     assert.equal(entriesAfter.length, 1, 'after loaded(), there is data')
     const [address, info] = entriesAfter[0]
-    assert.equal(address, 'net:staltz.com:8008~noauth', 'the address looks ok')
+    assert.equal(address, '/dns/staltz.com/tcp/8008', 'the address looks ok')
     assert.equal(info.stats.source, 'stored', 'the info looks ok')
 
     stats.close()
@@ -64,7 +64,7 @@ test('Stats', async (t) => {
 
     const entries = Array.from(infos.entries())
     assert.equal(entries.length === 1, true, 'stats has one entry')
-    assert.equal(entries[0][0], 'net:staltz.com:8008~noauth', 'entry addr ok')
+    assert.equal(entries[0][0], '/dns/staltz.com/tcp/8008', 'entry addr ok')
     assert.ok(entries[0][1].stats.duration, 'entry stats.duration ok')
   })
 
