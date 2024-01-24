@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git@github.com:staltz/ppppp-net.git"
   },
-  "main": "index.js",
+  "main": "lib/index.js",
   "files": [
     "*.js",
     "lib/*.js",
