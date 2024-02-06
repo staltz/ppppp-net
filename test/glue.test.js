@@ -6,7 +6,9 @@ const p = require('node:util').promisify
 const { createPeerMock } = require('./util')
 
 const PUBKEY = 'EqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs24RRUC'
+const PUBKEY2 = 'FqTMFv7zm8hpPyAkj789qdJgqtz81AEbcinpAs24RRUC'
 const TEST_ADDR = `/ip4/127.0.0.1/tcp/9752/shse/${PUBKEY}`
+const TEST_TUNNEL_ADDR = `/tunnel/${PUBKEY}.${PUBKEY2}/shse/${PUBKEY2}`
 
 test('Glueing together stats with connections', async (t) => {
   await t.test('stage() is ignored when peer already connected', async () => {
@@ -64,6 +66,25 @@ test('Glueing together stats with connections', async (t) => {
     const json = JSON.parse(fileContents)
     assert.deepEqual(Object.keys(json), [TEST_ADDR])
     assert.deepEqual(Object.keys(json[TEST_ADDR]), ['stateChange'])
+  })
+
+  await t.test('tunnel connections are not stats-persisted', async (t) => {
+    const peer = createPeerMock()
+    const address = TEST_TUNNEL_ADDR
+
+    const entriesBefore = await p(peer.net.peers())(null)
+    assert.equal(entriesBefore.length, 0, 'there is no entry in peers()')
+
+    const rpc = await p(peer.net.connect)(address)
+    assert.ok(rpc, 'connect() successful')
+
+    const statsJSONPath = Path.join(peer.mockDir, 'net', './stats.json')
+    while (FS.existsSync(statsJSONPath) === false) {
+      await p(setTimeout)(1)
+    }
+    const fileContents = FS.readFileSync(statsJSONPath, 'utf8')
+    const json = JSON.parse(fileContents)
+    assert.deepEqual(Object.keys(json), [])
   })
 
   await t.test('forget() will remove stats', async (t) => {
